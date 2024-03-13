@@ -9,7 +9,7 @@ function letrehozTablazat(lista) {
     txt += `<table>`
     for(let i = 0; i < lista.length; i++){
         txt += `<tr>`
-        txt += `<td>${lista[i].nev}</td>`
+        txt += `<td class="gyumolcsok">${lista[i].nev}</td>`
         txt += `<td>${lista[i].tomeg}</td>`
         txt += `<td>${lista[i].ar}</td>`
         txt += `</tr>`
@@ -17,17 +17,21 @@ function letrehozTablazat(lista) {
     txt += `</table>`
     return txt
 }
-console.log(letrehozTablazat(GYUMOLCSOK))
 const TABLAZAT = document.querySelectorAll("#feladat_1")[0] 
 TABLAZAT.innerHTML = letrehozTablazat(GYUMOLCSOK)
 const OSSZEG = document.getElementById("feladat_2")
 OSSZEG.innerHTML = osszesit(GYUMOLCSOK)
+const GYUMOLCSELEM = document.querySelectorAll(".gyumolcsok")
+const VASAROLTELEM = document.getElementById("feladat_3")
 
 for(let i = 0; i<GYUMOLCSOK.length; i++){
-    GYUMOLCSELEM[i].addEventListener("click",kattintas)
+    GYUMOLCSELEM[i].addEventListener("click", kattintas)
 }
-function kattintas(){
-    console.log("Rakattintva")
+function kattintas(event){
+    if(vasarolt.indexOf(event.target.innerHTML) < 0){
+        vasarolt.push(event.target.innerHTML)
+        VASAROLTELEM.innerHTML = vasarolt
+    }
 }
 // 2. feladat
 function osszesit(lista) {
@@ -38,10 +42,22 @@ function osszesit(lista) {
         arOsszeg += lista[i].ar
     }
     let txt = `<p>A gyümölcsök súlya összesen: ${osszeg} g</p>`
-    txt += `<p>A gyümölcsök ára összesen: ${osszeg} ft</p>`
+    txt += `<p>A gyümölcsök ára összesen: ${arOsszeg} ft</p>`
     return txt
 }
 
+
+const TORLESELEM = document.getElementById("feladat_4")
+TORLESELEM.innerHTML = "<button class='gomb'>Törlés</button>"
+const GOMBELEM = document.querySelector("#feladat_4 button")
+GOMBELEM.addEventListener("click", katt)
+
+
+function katt(){
+    const TORLES = document.querySelector("#torles")
+    TORLES.classList.remove("hide")
+    vasarolt = []
+}
 // 3. feladat
 function vasarol(zoldseg) {
 
